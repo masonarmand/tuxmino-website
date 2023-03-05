@@ -1,0 +1,61 @@
+:root {
+    --bg: #1a1a1c;
+    --fg: #f9f9f9;
+    --link: #3d91df;
+
+    font-family: sans-serif;
+    line-height: 23px;
+    /*font-family: pixel;
+    font-smooth: never;
+    -webkit-font-smoothing : none;*/
+}
+
+@font-face {
+    font-family: pixel;
+    src: url("/fonts/pixel.ttf");
+
+    font-display: swap;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+main {
+    max-width: 800px;
+}
+
+a {
+    color: var(--link);
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+code {
+    color: #e9e9f4;
+    background-color: #282936;
+    padding: 2px;
+    border: 1px solid #e9e9f4
+}
+
+#title header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 25px;
+}
+
+#title img {
+    width: 84px;
+}
+
+.container {
+    display: flex;
+}
+
+.doc-nav {
+    min-width: 200px;
+}

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuxmino - Creating a GameMode</title>
+  <meta name="description" content="Free open source, moddable falling block
+  puzzle game written in C.">
+
+  <meta name="keywords" content="tuxmino, free, action puzzle, puzzle, open
+  source, github, scarbyte, grand master, tetris">
+
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+
+  <link rel="stylesheet" href="/highlight/styles/base16/dracula.min.css">
+  <script src="/highlight/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <main>
+    <section id="title">
+      <header>
+        <img src="/img/logo.png" alt="Tuxmino Logo">
+        <h1>Tuxmino</h1>
+      </header>
+      Highly moddable free open source falling block puzzle game. Written in C.
+    </section>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a>
+        <li><a href="https://github.com/scarbyte/tuxmino" target="_blank">Source Code</a></li>
+        <li><a href="https://github.com/Scarbyte/tuxmino/releases" target="_blank">Download</a></li>
+        <li><a href="/contributing.html">Contributing</a></li>
+        <li><a href="/tutorial.html">GameMode tutorial</a></li>
+        <li><a href="/documentation.html">GameMode Documentation</a></li>
+      </ul>
+    </nav>
+
+    <section class="content">
+      <header>
+        <h2>Tutorial: How to Create a Tuxmino Game Mode</h2>
+      </header>
+      <h3>Getting Started</h3>
+      <p>
+        First create your lua file. The lua file should be in the gamemodes
+        directory. The contents of your lua file should look like this:
+      </p>
+<pre>
+<code class="language-lua">--[[
+--
+-- File: template.lua
+-- ------------------
+-- Author: YourName
+--
+-- This is a template for creating tuxmino game modes.
+--
+--]]
+
+--[[ This Function gets called once when the game is loaded --]]
+function start()
+end
+
+--[[ This function gets called every frame --]]
+function update()
+end
+
+--[[ This function gets called every time a piece locks to the PlayField --]]
+function advanceLevel(amount, level, lineCount)
+end
+</code>
+</pre>
+    <p>
+      If you are sharing this game mode with others, it is recommended to fill
+      out the docstring at the top with the filename, author, contributors, and
+      the description of your game mode. In this tutorial we will only be using
+      the functions <code>start()</code> and <code>advanceLevel()</code>.
+      <code>update()</code> is not required and is
+      only for advanced use cases.
+      <br>
+      <br>
+      <code>start()</code>
+      <br>
+      This function gets called once when the game is loaded, we will be using
+      it for initializing resources and setting the intial settings of our game
+      mode.
+      <br>
+      <br>
+      <code>advanceLevel(amount, level, lineCount)</code>
+      <br>
+      This function gets called every time a piece locks to the PlayField. we
+      will be using it to update the current level, section level, and the speed
+      timings based on our current level. <code>amount</code> is the amount of
+      levels that should be incremented, <code>level</code> is the current level,
+      and <code>lineCount</code> is how many lines the player scored.
+    </p>
+    <br>
+    <h3>Initializing Our Game Mode</h3>
+    <p>
+      First, lets start off by setting the title and frame color of our game
+      mode, we can do this by calling <code>initGameMode()</code>.
+    </p>
+<pre>
+<code class="language-lua">--[[ This Function gets called once when the game is loaded --]]
+function start()
+  -- Set the name of our game mode to "Tutorial" with a red frame
+  initGameMode("Tutorial", 255, 0, 0)
+end
+</code>
+</pre>
+  <p>
+    If you launch the game, you should see "Tutorial" in our list of gamemodes.
+    It should also have a red frame color. However the background is black, so
+    lets add a background!
+  </p>
+<pre>
+<code class="language-lua">--[[ This Function gets called once when the game is loaded --]]
+function start()
+  -- Set the name of our game mode to "Tutorial" with a red frame
+  initGameMode("Tutorial", 255, 0, 0)
+  -- Set the number of backgrounds to two
+  initBackgrounds(2)
+
+  -- Load our two backgrounds
+  initBgIdx(0, "yourbackground.png")
+  initBgIdx(1, "anotherbackground.png")
+
+  -- Set our background to the first background
+  setBackground(0)
+end
+</code>
+</pre>
+    <p>
+    First we call <code>initBackgrounds()</code> with the number of backgrounds we want to
+      have. If you are curious, this function is allocating an array of
+      Textures  for us in C. Then, we load our two backgrounds with
+      <code>initBgIdx()</code>
+      which takes two parameters (index of the background, and the filename of
+      the background), make sure to replace the filenames with your actual image
+      filenames. The backgrounds will be loaded from a folder within gamemodes,
+      with the title of your game mode. So in this case our directory structure
+      would look like this:
+      <br><br>
+      <code>"gamemodes/Tutorial/yourbackground.png"</code><br>
+      <code>"gamemodes/Tutorial/anotherbackground.png"</code>
+      <br><br>
+
+      You should now see your background when selecting your game mode. Now if
+      you haven't noticed already, when actually playing the game mode,
+      everything is a bit strange. Lets fix this by initializing our speed
+      settings and various other options.
+    </p>
+    <h3>Game Mode Settings</h3>
+<pre>
+<code class="language-lua">--[[ This Function gets called once when the game is loaded --]]
+function start()
+  -- Set the name of our game mode to "Tutorial" with a red frame
+  initGameMode("Tutorial", 255, 0, 0)
+  -- Set the number of backgrounds to two
+  initBackgrounds(2)
+
+  -- Load our two backgrounds
+  initBgIdx(0, "yourbackground.png")
+  initBgIdx(1, "anotherbackground.png")
+
+  -- Set our background to the first background
+  setBackground(0)
+
+  -- game mode settings
+  setDAS(16)             -- Delayed Auto Shift
+  setARR(1)              -- Auto Repeate Rate
+  setARE(30)             -- Appearance Delay
+  setLineARE(0)          -- Line Appearance Delay
+  setClearSpeed(41)      -- Line Clear Speed
+  setLockDelay(40)       -- Lock delay
+  setGravity(4)          -- Gravity (max is 5120, which is 20G)
+  setPreview(3)          -- Number of next pieces displayed
+  setBagRetry(6)         -- Number of times that will be attempted to generate a piece not in the bag
+  setGradeType(0)        -- Choose between two predefined grade types (0, 1) or create your own (2)
+  setGrade(0)            -- Grade (0-17) 0 = 9, 17 = Grand Master
+  setSevenBag(true)      -- Use 7 bag piece generation?
+  setHold(true)          -- Enable hold?
+  setSonicDrop(true)     -- Enable sonic/hard drop?
+  setExtraKicks(true)    -- Enable extra classic kicks? (extra I and T kicks)
+  set3D(true)            -- Enable psuedo 3D effect?
+  setDrawNextBg(true)    -- Enable background behind piece preview?
+  setBig(false)          -- Enable big mode?
+  setInvis(false)        -- Enable invisible pieces?
+  setDisplayGrade(false) -- Display internal grade (based on gradeType)?
+  setGhost(true)         -- Enable piece ghost?
+  setCreditRoll(false)   -- Show credit roll?
+  setMaxLevel(900)       -- Maximum select level
+  setSectionLevel(100)   -- Section Level
+  setLevel(0)            -- Current Level
+end
+</code>
+</pre>
+    <p>
+      Here are some good starting settings for our game mode. If you want to
+      learn more about these functions and their parameters, view the
+      <a href="/documentation.html">documentation</a>. This marks the end of our
+      start function, now is where the real fun begins. Lets add some stuff to
+      our <code>advanceLevel()</code> function.
+    </p>
+    <h3>Game Mode Logic</h3>
+<pre>
+<code class="language-lua">--[[ This function gets called every time a piece locks to the PlayField --]]
+function advanceLevel(amount, level, lineCount)
+
+  setLevel(level + amount + lineCount)
+
+  if (level &gt;= 100) then
+    setBackground(1)
+    setGravity(5120)
+  else
+    setBackground(0)
+    setGravity(4)
+  end
+end
+</code>
+</pre>
+    <p>
+      Now we added some code that will increase our level, and also increase the
+      gravity to max speed when we reach level 100. Obviously, this is not a
+      very well designed game mode. It is up to you to add a speed progression
+      system, grading, system, scoring system, and whatever else you want!
+      <br>
+    </p>
+    <h3>Complete Template Code</h3>
+<pre>
+<code class="language-lua">--[[
+--
+-- File: template.lua
+-- ------------------
+-- Author:
+-- Contributors:
+--
+-- This is a template for creating tuxmino game modes.
+--
+--]]
+
+--[[ This Function gets called once when the game is loaded --]]
+function start()
+    -- Set the name of our game mode to "Tutorial" with a red frame
+    initGameMode("Tutorial", 255, 0, 0)
+    -- Set the number of backgrounds to two
+    initBackgrounds(2)
+
+    -- Load our two backgrounds
+    -- initBgIdx(0, "yourbackground.png")
+    -- initBgIdx(1, "anotherbackground.png")
+
+    -- Set our background to the first background
+    setBackground(0)
+
+    -- game mode settings
+    setDAS(16)             -- Delayed Auto Shift
+    setARR(1)              -- Auto Repeate Rate
+    setARE(30)             -- Appearance Delay
+    setLineARE(0)          -- Line Appearance Delay
+    setClearSpeed(41)      -- Line Clear Speed
+    setLockDelay(40)       -- Lock delay
+    setGravity(4)          -- Gravity (max is 5120, which is 20G)
+    setPreview(3)          -- Number of next pieces displayed
+    setBagRetry(6)         -- Number of times that will be attempted to generate a piece not in the bag
+    setGradeType(0)        -- Choose between two predefined grade types (0, 1) or create your own (2)
+    setGrade(0)            -- Grade (0-17) 0 = 9, 17 = Grand Master
+    setSevenBag(true)      -- Use 7 bag piece generation?
+    setHold(true)          -- Enable hold?
+    setSonicDrop(true)     -- Enable sonic/hard drop?
+    setExtraKicks(true)    -- Enable extra classic kicks? (extra I and T kicks)
+    set3D(true)            -- Enable psuedo 3D effect?
+    setDrawNextBg(true)    -- Enable background behind piece preview?
+    setBig(false)          -- Enable big mode?
+    setInvis(false)        -- Enable invisible pieces?
+    setDisplayGrade(false) -- Display internal grade (based on gradeType)?
+    setGhost(true)         -- Enable piece ghost?
+    setCreditRoll(false)   -- Show credit roll?
+    setMaxLevel(900)       -- Maximum select level
+    setSectionLevel(100)   -- Section Level
+    setLevel(0)            -- Current Level
+end
+
+
+--[[ This Function gets called every frame --]]
+function update()
+end
+
+--[[ This Function gets called every time a piece lands --]]
+function advanceLevel(amount, level, lineCount)
+    setLevel(level + amount + lineCount)
+
+    if (level &gt;= 100) then
+        setBackground(1)
+        setSectionLevel(200)
+        setGravity(5120)
+    else
+        setBackground(0)
+        setSectionLevel(100)
+        setGravity(4)
+    end
+end
+</code>
+</pre>
+    </section>
+  </main>
+
+</body>
+</html>

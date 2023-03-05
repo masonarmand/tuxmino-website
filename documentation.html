@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuxmino - Creating a GameMode</title>
+  <meta name="description" content="Free open source, moddable falling block
+  puzzle game written in C.">
+
+  <meta name="keywords" content="tuxmino, free, action puzzle, puzzle, open
+  source, github, scarbyte, grand master, tetris">
+
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+
+  <link rel="stylesheet" href="/highlight/styles/base16/dracula.min.css">
+  <script src="/highlight/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <main>
+    <section id="title">
+      <header>
+        <img src="/img/logo.png" alt="Tuxmino Logo">
+        <h1>Tuxmino</h1>
+      </header>
+      Highly moddable free open source falling block puzzle game. Written in C.
+    </section>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a>
+        <li><a href="https://github.com/scarbyte/tuxmino" target="_blank">Source Code</a></li>
+        <li><a href="https://github.com/Scarbyte/tuxmino/releases" target="_blank">Download</a></li>
+        <li><a href="/contributing.html">Contributing</a></li>
+        <li><a href="/tutorial.html">GameMode tutorial</a></li>
+        <li><a href="/documentation.html">GameMode Documentation</a></li>
+      </ul>
+    </nav>
+
+    <section class="content">
+      <header>
+        <h2>Functions</h2>
+      </header>
+      <h3>C Functions (Called by Lua)</h3>
+<pre>
+<code class="language-c"> // Initialization
+initGameMode(char* name, unsigned char r, unsigned char g, unsigned char b);
+initBackgrounds(int amount); // Initialize backgrounds array with number of backgrounds
+initBgIdx(int index, char* filename); // Load background from file
+setBackground(int index); // Set the current background
+setPieceTint(unsigned char r, unsigned char g, unsigned char b); // Set tint of pieces that are locked to the PlayField
+
+// Timings
+setDAS(int frames);            // Delayed Auto Shift
+setARR(int frames);            // Auto Repeate Rate
+setARE(int frames);            // Appearance Delay
+setLineARE(int frames);        // Line Appearance Delay
+setClearSpeed(int frames);     // Line Clear Speed
+setLockDelay(int frames);      // Lock delay
+setGravity(int amount);        // Gravity (max is 5120, which is 20G)
+setPreview(int amount);        // Number of next pieces displayed
+setBagRetry(int amount);       // Number of times that will be attempted to generate a piece not in the bag
+setGradeType(int type);        // Choose between two predefined grade types (0, 1) or create your own (2)
+setGrade(int grade);           // Grade (0-17) 0 = 9, 17 = Grand Master
+setSevenBag(bool enabled);     // Use 7 bag piece generation?
+setHold(bool enabled);         // Enable hold?
+setSonicDrop(bool enabled);    // Enable sonic/hard drop?
+setExtraKicks(bool enabled);   // Enable extra classic kicks? (extra I and T kicks)
+set3D(bool enabled);           // Enable psuedo 3D effect?
+setDrawNextBg(bool enabled);   // Enable background behind piece preview?
+setBig(bool enabled);          // Enable big mode?
+setInvis(bool enabled);        // Enable invisible pieces?
+setDisplayGrade(bool enabled); // Display internal grade (based on gradeType)?
+setGhost(bool enabled);        // Enable piece ghost?
+setCreditRoll(bool enabled);   // Show credit roll?
+setMaxLevel(int level);        // Maximum select level
+setSectionLevel(int level);    // Section Level
+setLevel(int level);           // Current Level
+</code>
+</pre>
+
+<h3>Lua Functions (Called from C)</h3>
+<pre>
+<code class="language-lua">function start()                                -- Called once on file load
+function update()                               -- Called every frame (only use this for specific use cases)
+function advanceLevel(amount, level, lineCount) -- Called every time a piece locks to the PlayField
+</code>
+</pre>
+    </section>
+  </main>
+</body>
+</html>

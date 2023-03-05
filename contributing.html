@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuxmino - Contributing</title>
+  <meta name="description" content="Free open source, moddable falling block
+  puzzle game written in C.">
+
+  <meta name="keywords" content="tuxmino, free, action puzzle, puzzle, open
+  source, github, scarbyte, grand master, tetris">
+
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="stylesheet" href="/highlight/styles/base16/dracula.min.css">
+  <script src="/highlight/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <main>
+    <section id="title">
+      <header>
+        <img src="/img/logo.png" alt="Tuxmino Logo">
+        <h1>Tuxmino</h1>
+      </header>
+      Highly moddable free open source falling block puzzle game. Written in C.
+    </section>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a>
+        <li><a href="https://github.com/scarbyte/tuxmino" target="_blank">Source Code</a></li>
+        <li><a href="https://github.com/Scarbyte/tuxmino/releases" target="_blank">Download</a></li>
+        <li><a href="/contributing.html">Contributing</a></li>
+        <li><a href="/tutorial.html">GameMode tutorial</a></li>
+        <li><a href="/documentation.html">GameMode Documentation</a></li>
+      </ul>
+    </nav>
+
+    <hr>
+
+    <section class="content">
+      <header>
+        <h2>Contributing</h2>
+      </header>
+      <hr>
+      <p>
+        If you are interested in contributing to Tuxmino, that's great! Below is
+        a list of things that are currently not implemented but would be nice to
+        have. Also make sure you read the Styling Guidelines below. Also if you
+        contribute, please add yourself to the game credits in
+        <code>credits.c</code>!
+      </p>
+      <p>Features that haven't been implemented yet:</p>
+      <ul>
+        <li>GUI options menu</li>
+        <li>GIF background support.</li>
+        <li>More 'advanced' lua functions. For example: functions that will
+          allow people to alter the PlayField matrix directly, functions that
+          can draw text to the screen, etc.</li>
+        <li>Support for 0 ARR (piece instantly goes to the sides of the matrix
+          after DAS-ing).</li>
+        <li>Support for adding custom options to the options menu to lua
+          gamemodes.</li>
+        <li>Gamemode descriptions.</li>
+        <li>Alternative WORLD I-kicks.</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section class="content">
+      <header>
+        <h2>Styling Guidelines</h2>
+      </header>
+      <hr>
+      <h3>General Guidelines</h3>
+      <ul>
+        <li>Indents should be 4 <b>spaces</b>.</li>
+        <li>Variable names should be descriptive and readable, dont use variable names like
+          <code>itmlst</code> when you could instead write <code>itemList</code>.</li>
+        <li>Don't use confusing macros. I do not care that for loops can be
+          turned into a macro, it is important that basic functionality like
+          for-loops be easily recognizable. People dont know what
+          <code>loop()</code> is, but everyone can easily recognize
+          <code>for (int i = 0; ...)</code></li>
+        <li>Try to limit yourself to keeping your code within 80 characters
+          wide. This is not a hard limit, but it is recommended.</li>
+        <li>2 line breaks between function declarations.</li>
+        <li>Whitespace after control flow statements. Example: <code>for
+            ()</code>, <code>if ()</code>,
+          <code>while ()</code>. NOTE: Do NOT do this with regular function calls.</li>
+        <li>Do not define multiple variables on the same line. Things like
+          <code>int* var1, var2;</code> can cause confusion.</li>
+        <li>All comments should be written <code>/* in this way */</code> instead of
+          <code>// this way</code></li>
+        <li>Else statements should be on their own line. Example:</li>
+<pre><code class="language-c">/* Do this */
+if (condition) {
+    /* code */
+}
+else if (condition) {
+    /* code */
+}
+
+/* DONT do this */
+if (condition) {
+    /* code */
+} else if (condition) {
+    /* code */
+}
+</code></pre>
+      </ul>
+
+      <hr>
+
+      <h3>Naming Conventions</h3>
+      <p>
+        Do to the extensive use of the Raylib library in this project, the
+        naming conventions are quite similar to
+        <a href="https://github.com/raysan5/raylib/blob/master/CONVENTIONS.md">Raylib's</a>
+        to avoid mixing different naming styles. However, some things are
+        different. Here is a list of all of the naming conventions:
+      </p>
+      <table cellpadding="5" cellspacing="1" border="1">
+      <tr><th>Code Element</th><th>Convention</th></tr>
+      <tr><td>Defines</td><td>ALL_CAPS</td></tr>
+      <tr><td>Macros</td><td>ALL_CAPS</td></tr>
+      <tr><td>Variables (all types)</td><td>camelCase</td></tr>
+      <tr><td>Pointers</td><td>Type* pointer</td></tr>
+      <tr><td>Floats</td><td>x.xf (ex: 10.0f)</td></tr>
+      <tr><td>Operators (all types)</td><td>Value1 + value2</td></tr>
+      <tr><td>Enum</td><td>TitleCase</td></tr>
+      <tr><td>Enum members</td><td>ALL_CAPS</td></tr>
+      <tr><td>Struct</td><td>TitleCase</td></tr>
+      <tr><td>Struct members</td><td>camelCase</td></tr>
+      <tr><td>Functions</td><td>camelCase</td></tr>
+      <tr><td>Function Params</td><td>camelCase</td></tr>
+      </table>
+      <br>
+      <hr>
+
+      <h3>File Docstrings</h3>
+      <p>
+        At the top of every file should be a docstring stating:
+      </p>
+      <ul>
+        <li>The <b>name</b> of the file.</li>
+        <li>The <b>purpose</b> of the file.</li>
+        <li>The <b>author</b> of the file.</li>
+        <li>People who <b>contributed</b> to the file. Can be your real name, github
+          username, or an email. Also include a short summary of what you
+          contributed to the file.</li>
+        <li>The date the file was <b>created</b>.</li>
+        <li>The date the file was last <b>modified</b>.</li>
+        <li>Dates should be expressed at MMM DD, YYYY (Jan 01, 2023)</li>
+      </ul>
+      <p>Example:</p>
+<pre>
+<code class="language-c">/*
+ * File: file.c
+ * ------------
+ * This is a file that does xyz, it should be used for xyz, etc.
+ *
+ * Original Author: John Doe
+ * Contributors:
+ *   - Tux: Added xyz
+ * Date Created: MMM DD, YYYY
+ * Last Modified: MMM DD, YYYY
+ */
+</code>
+</pre>
+
+      <hr>
+
+      <h3>Functions</h3>
+      <p>
+        Functions should have descriptive names, and should use camelCase. The
+        opening bracket for a function should be on its own line (this is only
+        for functions, dont do this for if statements, loops, etc). Each
+        function should have a small comment/docstring explaining what the
+        function does. You do not need to go into detail on <b>HOW</b> the
+        function works, only <b>WHAT</b> it does (or better yet, <b>WHY</b> its
+        doing something). If the name of the function is
+        super obvious, for example something like drawSquare(), you do not need to provide a
+        docstring stating "This function draws a square". If a function doesn't
+        need a docstring, you do not need to write one. All functions should
+        have two line breaks in between them.
+        <br>
+        <br>
+        Example:
+      </p>
+<pre>
+<code class="language-c">/*
+ * This function does xyz
+ */
+void thisIsAFunction(int param)
+{
+    if (param == 3) {
+        /* code */
+    }
+}
+
+
+void superObviousFunction()
+{
+    /* code */
+}
+
+
+/*
+ * This is another function with a docstring
+ */
+void anotherFunction()
+{
+    /* code */
+}
+</code>
+</pre>
+
+    </section>
+  </main>
+</body>
+
+</html>
