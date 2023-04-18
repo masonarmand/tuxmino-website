@@ -94,6 +94,7 @@
       <h3>Lua Functions (Called from C)</h3>
 <pre>
 <code class="language-lua">function start()                                -- Called once on file load
+function reset()                                -- Called every time game mode is reset or selected.
 function update()                               -- Called every frame (only use this for specific use cases)
 function advanceLevel(amount, lineCount)        -- Called every time a piece locks to the PlayField
 -- amount = The amount to increment the level
