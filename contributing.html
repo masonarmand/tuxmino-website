@@ -45,25 +45,12 @@
       <hr>
       <p>
         If you are interested in contributing to Tuxmino, that's great! Below is
-        a list of things that are currently not implemented but would be nice to
-        have. Also make sure you read the Styling Guidelines below. Also if you
-        contribute, please add yourself to the game credits in
+        a link to TODO.md which is a list of all issues and things that haven't
+        been implemented yet. Also make sure you read the Styling Guidelines below.
+        Also if you contribute, please add yourself to the game credits in
         <code>credits.c</code>!
       </p>
-      <p>Features that haven't been implemented yet:</p>
-      <ul>
-        <li>GUI options menu</li>
-        <li>GIF background support.</li>
-        <li>More 'advanced' lua functions. For example: functions that will
-          allow people to alter the PlayField matrix directly, functions that
-          can draw text to the screen, etc.</li>
-        <li>Support for 0 ARR (piece instantly goes to the sides of the matrix
-          after DAS-ing).</li>
-        <li>Support for adding custom options to the options menu to lua
-          gamemodes.</li>
-        <li>Gamemode descriptions.</li>
-        <li>Alternative WORLD I-kicks.</li>
-      </ul>
+      <a href="https://github.com/masonarmand/tuxmino/blob/main/TODO.md" target="_blank">TODO.md</a>
     </section>
 
     <hr>
@@ -83,16 +70,14 @@
           for-loops be easily recognizable. People dont know what
           <code>loop()</code> is, but everyone can easily recognize
           <code>for (int i = 0; ...)</code></li>
-        <li>Try to limit yourself to keeping your code within 80 characters
-          wide. This is not a hard limit, but it is recommended.</li>
+        <li>Line length should be kept within 120 characters, however this is not a hard limit.</li>
         <li>2 line breaks between function declarations.</li>
         <li>Whitespace after control flow statements. Example: <code>for
             ()</code>, <code>if ()</code>,
           <code>while ()</code>. NOTE: Do NOT do this with regular function calls.</li>
         <li>Do not define multiple variables on the same line. Things like
           <code>int* var1, var2;</code> can cause confusion.</li>
-        <li>All comments should be written <code>/* in this way */</code> instead of
-          <code>// this way</code></li>
+        <li><code>/* This style of commenting */</code> is preferable to <code>// this style</code></li>
         <li>Else statements should be on their own line. Example:</li>
 <pre><code class="language-c">/* Do this */
 if (condition) {
@@ -148,11 +133,11 @@ if (condition) {
         <li>The <b>purpose</b> of the file.</li>
         <li>The <b>author</b> of the file.</li>
         <li>People who <b>contributed</b> to the file. Can be your real name, github
-          username, or an email. Also include a short summary of what you
+          username, or an email. You can also include a short summary of what you
           contributed to the file.</li>
         <li>The date the file was <b>created</b>.</li>
         <li>The date the file was last <b>modified</b>.</li>
-        <li>Dates should be expressed at MMM DD, YYYY (Jan 01, 2023)</li>
+        <li>Dates should be expressed as MMM DD, YYYY (Jan 01, 2023)</li>
       </ul>
       <p>Example:</p>
 <pre>

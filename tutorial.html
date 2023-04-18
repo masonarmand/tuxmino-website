@@ -61,12 +61,16 @@
 function start()
 end
 
+--[[ This function gets called when the game is reset or selected --]]
+function reset()
+end
+
 --[[ This function gets called every frame --]]
 function update()
 end
 
 --[[ This function gets called every time a piece locks to the PlayField --]]
-function advanceLevel(amount, level, lineCount)
+function advanceLevel(amount, lineCount)
 end
 </code>
 </pre>
@@ -86,13 +90,18 @@ end
       mode.
       <br>
       <br>
-      <code>advanceLevel(amount, level, lineCount)</code>
+      <code>reset()</code>
+      <br>
+      This function gets called when we reset or select the game. One example
+      of its use would be to reset passed grade requirements.
+      <br>
+      <br>
+      <code>advanceLevel(amount, lineCount)</code>
       <br>
       This function gets called every time a piece locks to the PlayField. we
       will be using it to update the current level, section level, and the speed
       timings based on our current level. <code>amount</code> is the amount of
-      levels that should be incremented, <code>level</code> is the current level,
-      and <code>lineCount</code> is how many lines the player scored.
+      levels that should be incremented and <code>lineCount</code> is how many lines the player scored.
     </p>
     <br>
     <h3>Initializing Our Game Mode</h3>
@@ -137,12 +146,12 @@ end
       <code>initBgIdx()</code>
       which takes two parameters (index of the background, and the filename of
       the background), make sure to replace the filenames with your actual image
-      filenames. The backgrounds will be loaded from a folder within gamemodes,
-      with the title of your game mode. So in this case our directory structure
-      would look like this:
+      filenames. The backgrounds will be loaded from the root folder.
+      So in this case our directory structure
+      would look like this if our backgrounds were in the res folder:
       <br><br>
-      <code>"gamemodes/Tutorial/yourbackground.png"</code><br>
-      <code>"gamemodes/Tutorial/anotherbackground.png"</code>
+      <code>"res/yourbackground.png"</code><br>
+      <code>"res/anotherbackground.png"</code>
       <br><br>
 
       You should now see your background when selecting your game mode. Now if
@@ -205,11 +214,11 @@ end
     <h3>Game Mode Logic</h3>
 <pre>
 <code class="language-lua">--[[ This function gets called every time a piece locks to the PlayField --]]
-function advanceLevel(amount, level, lineCount)
+function advanceLevel(amount, lineCount)
 
-  setLevel(level + amount + lineCount)
+  setLevel(getLevel() + amount + lineCount)
 
-  if (level &gt;= 100) then
+  if (getLevel() &gt;= 100) then
     setBackground(1)
     setGravity(5120)
   else
@@ -226,82 +235,6 @@ end
       system, grading, system, scoring system, and whatever else you want!
       <br>
     </p>
-    <h3>Complete Template Code</h3>
-<pre>
-<code class="language-lua">--[[
---
--- File: template.lua
--- ------------------
--- Author:
--- Contributors:
---
--- This is a template for creating tuxmino game modes.
---
---]]
-
---[[ This Function gets called once when the game is loaded --]]
-function start()
-    -- Set the name of our game mode to "Tutorial" with a red frame
-    initGameMode("Tutorial", 255, 0, 0)
-    -- Set the number of backgrounds to two
-    initBackgrounds(2)
-
-    -- Load our two backgrounds
-    -- initBgIdx(0, "yourbackground.png")
-    -- initBgIdx(1, "anotherbackground.png")
-
-    -- Set our background to the first background
-    setBackground(0)
-
-    -- game mode settings
-    setDAS(16)             -- Delayed Auto Shift
-    setARR(1)              -- Auto Repeate Rate
-    setARE(30)             -- Appearance Delay
-    setLineARE(0)          -- Line Appearance Delay
-    setClearSpeed(41)      -- Line Clear Speed
-    setLockDelay(40)       -- Lock delay
-    setGravity(4)          -- Gravity (max is 5120, which is 20G)
-    setPreview(3)          -- Number of next pieces displayed
-    setBagRetry(6)         -- Number of times that will be attempted to generate a piece not in the bag
-    setGradeType(0)        -- Choose between two predefined grade types (0, 1) or create your own (2)
-    setGrade(0)            -- Grade (0-17) 0 = 9, 17 = Grand Master
-    setSevenBag(true)      -- Use 7 bag piece generation?
-    setHold(true)          -- Enable hold?
-    setSonicDrop(true)     -- Enable sonic/hard drop?
-    setExtraKicks(true)    -- Enable extra classic kicks? (extra I and T kicks)
-    set3D(true)            -- Enable psuedo 3D effect?
-    setDrawNextBg(true)    -- Enable background behind piece preview?
-    setBig(false)          -- Enable big mode?
-    setInvis(false)        -- Enable invisible pieces?
-    setDisplayGrade(false) -- Display internal grade (based on gradeType)?
-    setGhost(true)         -- Enable piece ghost?
-    setCreditRoll(false)   -- Show credit roll?
-    setMaxLevel(900)       -- Maximum select level
-    setSectionLevel(100)   -- Section Level
-    setLevel(0)            -- Current Level
-end
-
-
---[[ This Function gets called every frame --]]
-function update()
-end
-
---[[ This Function gets called every time a piece lands --]]
-function advanceLevel(amount, level, lineCount)
-    setLevel(level + amount + lineCount)
-
-    if (level &gt;= 100) then
-        setBackground(1)
-        setSectionLevel(200)
-        setGravity(5120)
-    else
-        setBackground(0)
-        setSectionLevel(100)
-        setGravity(4)
-    end
-end
-</code>
-</pre>
     </section>
   </main>
 

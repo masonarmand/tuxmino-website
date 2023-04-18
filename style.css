@@ -38,7 +38,17 @@ code {
     color: #e9e9f4;
     background-color: #282936;
     padding: 2px;
-    border: 1px solid #e9e9f4
+    border: 1px solid #e9e9f4;
+}
+
+.function {
+    border: 1px solid #e9e9f4;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.function pre {
+    margin: 0;
 }
 
 #title header {
